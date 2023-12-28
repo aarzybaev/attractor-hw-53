@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import React, {useState} from 'react';
+import AddTaskForm from './AddTaskForm/AddTaskForm';
+import Task from './Task/Task';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface Todo {
+  id: string;
+  task: string;
 }
 
-export default App
+function App() {
+  const [todo, setTodo] = useState<Todo[]>([
+    {id: '1703769875638', task: 'Buy milk'},
+    {id: '1703769875668', task: 'Walk with dog'},
+    {id: '1703769875698', task: 'Do homework'}
+  ]);
+
+  const [currentTask, setCurrentTask] = useState('');
+
+  const inputTaskHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const taskText: string = event.target.value;
+    setCurrentTask(taskText);
+  };
+
+  const addTaskHandler = () => {
+    if (currentTask) {
+      const id: string = new Date().getTime().toString();
+      const todoCopy = [...todo];
+      const newTodo = {id, task: currentTask};
+      todoCopy.push(newTodo);
+      setTodo(todoCopy);
+    }
+  };
+
+  const removeHandler = (id: string) => {
+    const index = todo.findIndex((item) => item.id === id);
+    const todoCopy = [...todo];
+    todoCopy.splice(index, 1);
+    setTodo(todoCopy);
+  };
+
+  return (
+    <div className="App">
+      <AddTaskForm
+        addTask={addTaskHandler}
+        onTaskChange={(event) => {
+          inputTaskHandler(event);
+        }}
+      />
+      {
+        todo.map((item) => {
+          return (
+            <Task
+              key={item.id}
+              task={item.task}
+              removeTask={() => {
+                removeHandler(item.id);
+              }}
+            />
+          );
+        })
+      }
+    </div>
+  );
+}
+
+export default App;
