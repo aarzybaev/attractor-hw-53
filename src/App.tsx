@@ -22,7 +22,8 @@ function App() {
     setCurrentTask(taskText);
   };
 
-  const addTaskHandler = () => {
+  const addTaskHandler = (event: React.SyntheticEvent) => {
+    event.preventDefault();
     if (currentTask) {
       const id: string = new Date().getTime().toString();
       const todoCopy = [...todo];

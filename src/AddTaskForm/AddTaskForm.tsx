@@ -2,7 +2,7 @@ import React from 'react';
 
 interface Props {
   onTaskChange?: React.ChangeEventHandler<HTMLInputElement>;
-  addTask: React.MouseEventHandler;
+  addTask: React.FormEventHandler;
 }
 
 const AddTaskForm: React.FC<Props> = ({
@@ -11,9 +11,9 @@ const AddTaskForm: React.FC<Props> = ({
                                       }) => {
   return (
     <div className="form-task ">
-      <form>
+      <form onSubmit={addTask}>
         <input onChange={onTaskChange} type="text"/>
-        <button className="btn" type="button" onClick={addTask}>Add</button>
+        <button className="btn" type="submit">Add</button>
       </form>
     </div>
   );
