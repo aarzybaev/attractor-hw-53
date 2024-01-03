@@ -6,9 +6,9 @@ interface Props {
 }
 
 const AddTaskForm: React.FC<Props> = ({
-                                        onTaskChange,
-                                        addTask
-                                      }) => {
+  onTaskChange,
+  addTask
+}) => {
   return (
     <div className="form-task ">
       <form onSubmit={addTask}>

@@ -22,7 +22,7 @@ function App() {
     setCurrentTask(taskText);
   };
 
-  const addTaskHandler = (event: React.SyntheticEvent) => {
+  const addTaskHandler = (event: React.FormEvent) => {
     event.preventDefault();
     if (currentTask) {
       const id: string = new Date().getTime().toString();
